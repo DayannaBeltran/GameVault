@@ -1,0 +1,57 @@
+<th:block th:replace="~{layout/base :: layout(~{::title}, ~{::main})}">
+
+    <title>Mis juegos - GameVault</title>
+
+    <main class="container">
+
+        <div class="page-header">
+            <div>
+                <h2 class="text-gradient">Mis Videojuegos</h2>
+                <p style="color: var(--text-muted);">Administra los juegos que tienes guardados.</p>
+            </div>
+
+            <a href="/juegos/nuevo" class="btn btn-primary">+ Nuevo Juego</a>
+        </div>
+
+        <div class="grid">
+
+            <div th:each="juego : ${juegos}" class="panel game-card">
+
+                <img th:src="${#strings.startsWith(juego.portadaUrl,'http')} ? ${juego.portadaUrl} : @{/uploads/{img}(img=${juego.portadaUrl})}"
+                     alt="Portada"
+                     class="game-img"/>
+
+                <div class="game-content">
+                    <h3 th:text="${juego.titulo}">Título del Juego</h3>
+
+                    <div class="game-info">
+                        <span class="badge badge-primary" th:text="${juego.categoria}">Categoría</span>
+                        <span class="price" th:text="'$' + ${juego.precio}">$0.00</span>
+                    </div>
+
+                    <p th:text="${juego.descripcion}" class="game-description">
+                        Descripción breve del juego.
+                    </p>
+
+                    <div class="card-actions">
+                        <a th:href="@{/juegos/editar/{id}(id=${juego.id})}" class="btn btn-secondary">
+                             Editar
+                        </a>
+
+                        <form th:action="@{/juegos/eliminar/{id}(id=${juego.id})}"
+                              method="post"
+                              onsubmit="return confirm('¿Estás segura de eliminar este juego?');">
+
+                            <button type="submit" class="btn btn-danger">
+                                 Eliminar
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+</th:block>

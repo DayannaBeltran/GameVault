@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es" th:fragment="layout(title, content)">
+<head>
+    <meta charset="UTF-8">
+    <title th:replace="${title}">GameVault</title>
+    <link rel="stylesheet" th:href="@{/styles/style.css}">
+</head>
+<body>
+
+<nav>
+    <a href="/juegos" class="nav-brand"> GameVault</a>
+
+    <div class="nav-links">
+        <a href="/juegos">Inicio Catálogo</a>
+
+        <th:block th:if="${session.usuario_id == null}">
+            <a href="/login">Iniciar Sesión</a>
+            <a href="/registro">Registrarse</a>
+        </th:block>
+
+        <th:block th:if="${session.usuario_id != null}">
+            <a href="/mis-juegos">Mis Videojuegos</a>
+            <a href="/juegos/nuevo">Subir Juego</a>
+            <a href="/logout" class="nav-danger">Cerrar Sesión</a>
+        </th:block>
+
+        <a href="/fragments-demo">Fragmentos</a>
+    </div>
+</nav>
+
+<main class="container" th:replace="${content}">
+    Contenido por defecto
+</main>
+
+</body>
+</html>

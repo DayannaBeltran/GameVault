@@ -1,0 +1,46 @@
+package com.example.GameVault.config;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+@Configuration
+public class WebConfig implements WebMvcConfigurer {
+
+    @Autowired
+    private AuthInterceptor authInterceptor;
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        Path uploadDir = Paths.get("src/main/resources/static/uploads");
+        String uploadPath = uploadDir.toFile().getAbsolutePath();
+
+        registry.addResourceHandler("/uploads/**")
+                .addResourceLocations("file:/" + uploadPath + "/");
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(authInterceptor)
+                .addPathPatterns(
+                        "/mis-juegos",
+                        "/juegos/nuevo",
+                        "/juegos/editar/**",
+                        "/juegos/actualizar/**",
+                        "/juegos/eliminar/**"
+                )
+                .excludePathPatterns(
+                        "/",
+                        "/juegos",
+                        "/login",
+                        "/registro",
+                        "/styles/**",
+                        "/uploads/**"
+                );
+    }
+}
+

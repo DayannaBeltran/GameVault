@@ -1,0 +1,40 @@
+<th:block th:replace="~{layout/base :: layout(~{::title}, ~{::main})}">
+    <title>Iniciar sesión - GameVault</title>
+
+    <main class="container">
+        <div class="panel auth-panel">
+
+            <h2 class="text-gradient">Iniciar Sesión</h2>
+
+            <p th:if="${param.registrado}" class="success-message">
+                Registro exitoso. Ahora inicia sesión.
+            </p>
+
+            <p th:if="${error}" th:text="${error}" class="error-message">
+                Credenciales inválidas.
+            </p>
+
+            <form action="/login" method="post">
+
+                <div class="form-group">
+                    <label for="email" class="form-label">Correo electrónico</label>
+                    <input type="email" id="email" name="email" required class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="form-label">Contraseña</label>
+                    <input type="password" id="password" name="password" required class="form-control">
+                </div>
+
+                <button type="submit" class="btn btn-primary full-btn">
+                    Entrar
+                </button>
+            </form>
+
+            <p class="auth-link">
+                ¿No tienes cuenta?
+                <a href="/registro">Regístrate aquí</a>
+            </p>
+        </div>
+    </main>
+</th:block>
